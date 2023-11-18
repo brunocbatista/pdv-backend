@@ -11,14 +11,14 @@ class ForgotPasswordNotification extends Notification
 {
     use Queueable;
 
-    private int $token;
+    public string $token;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct(string $token)
     {
         $this->token = $token;
     }
