@@ -13,9 +13,9 @@ test('users can validate token for reset password', function () {
         'type_id' => UserTypeEnum::ADMINISTRATOR->value
     ]);
 
-    $this->post(route('api.forgot-password'), ['email' => $user->email]);
+    $this->post(route('tenant.api.forgot-password'), ['email' => $user->email]);
     Notification::assertSentTo($user, ForgotPasswordNotification::class, function (object $notification) use ($user) {
-        $response = $this->post(route('api.reset-password.token.validate'), [
+        $response = $this->post(route('tenant.api.reset-password.token.validate'), [
             'token' => $notification->token,
             'email' => $user->email
         ]);
@@ -38,11 +38,11 @@ test('users can reset password', function () {
     ]);
 
 
-    $this->post(route('api.forgot-password'), ['email' => $user->email]);
+    $this->post(route('tenant.api.forgot-password'), ['email' => $user->email]);
     Notification::assertSentTo($user, ForgotPasswordNotification::class, function (object $notification) use (&$user) {
         $password = 'abc123*';
 
-        $response = $this->post(route('api.reset-password'), [
+        $response = $this->post(route('tenant.api.reset-password'), [
             'token' => $notification->token,
             'email' => $user->email,
             'password' => $password,

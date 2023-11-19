@@ -1,22 +1,26 @@
 <?php
 
-use Laravel\Sanctum\Sanctum;
 use App\Models\User;
 use App\Enums\UserTypeEnum;
 use Symfony\Component\HttpFoundation\Response;
 
-test('users can logout', function () {
+test('users can authenticate', function () {
     $user = User::factory()->create([
         'type_id' => UserTypeEnum::ADMINISTRATOR->value
     ]);
-    $authenticatedUser = Sanctum::actingAs($user, UserTypeEnum::ADMINISTRATOR->abilities());
 
-    $response = $this->actingAs($authenticatedUser, 'sanctum')->post(route('api.logout'));
+    $response = $this->post(route('tenant.api.login'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
 
     $response
         ->assertStatus(Response::HTTP_OK)
         ->assertJsonStructure([
             'message',
-            'data'
+            'data' => [
+                'user',
+                'token'
+            ]
         ]);
 });
