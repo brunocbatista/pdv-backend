@@ -12,7 +12,7 @@ test('users can get token for reset password', function () {
         'type_id' => UserTypeEnum::ADMINISTRATOR->value
     ]);
 
-    $response = $this->post(route('api.forgot-password'), ['email' => $user->email]);
+    $response = $this->post(route('tenant.api.forgot-password'), ['email' => $user->email]);
 
     Notification::assertSentTo($user, ForgotPasswordNotification::class, function (object $notification) use ($user) {
         $this->assertDatabaseHas('password_reset_tokens', [

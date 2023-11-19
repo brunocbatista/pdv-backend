@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\tenant\SystemUserSeeder;
+use Database\Seeders\tenant\UserTypeSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,8 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(UserTypeSeeder::class);
+        if (tenant()) {
+            $this->call(UserTypeSeeder::class);
+            $this->call(SystemUserSeeder::class);
 
-        $this->call(SystemUserSeeder::class);
+            return;
+        }
+
+        $this->call(TenantSeeder::class);
     }
 }

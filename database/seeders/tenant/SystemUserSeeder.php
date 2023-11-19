@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\tenant;
 
 use App\Enums\UserTypeEnum;
 use App\Models\User;
@@ -15,8 +15,8 @@ class SystemUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin PDV',
-            'email' => 'bruncbatista@gmail.com',
+            'name' => 'Admin ' . tenant()->name,
+            'email' => 'admin@' . str_replace('_', '', tenant()->id) . '.com',
             'password' => Hash::make('abc123*'),
             'type_id' => UserTypeEnum::ADMINISTRATOR->value,
             'email_verified_at' => now(),

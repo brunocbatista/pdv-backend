@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\URL;
+use App\Models\Tenant;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -10,11 +14,21 @@
 | need to change it using the "uses()" function to bind a different classes or traits.
 |
 */
-
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
 )->beforeEach(fn() => $this->seed(\Database\Seeders\DatabaseSeeder::class))->in('Feature');
+
+
+
+uses()->beforeEach(function() {
+    $tenant = Tenant::query()
+        ->with('domains')
+        ->first();
+
+    tenancy()->initialize($tenant);
+    URL::forceRootUrl('http://' . $tenant->domains[0]['domain']);
+})->in('Feature/Tenant');
 
 /*
 |--------------------------------------------------------------------------

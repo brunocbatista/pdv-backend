@@ -17,8 +17,8 @@ class DeleteAndAnonymizeUser extends AbstractDeleteData
     {
         parent::handle($model);
         $model->tokens()->delete();
-        $model->name = Crypt::encrypt($model->name);
-        $model->email = Crypt::encrypt($model->email);
+        $model->name = Crypt::encryptString($model->name);
+        $model->email = Crypt::encryptString($model->email);
         $model->save();
 
         return true;

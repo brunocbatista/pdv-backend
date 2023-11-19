@@ -11,7 +11,7 @@ test('users can show your profile', function () {
     ]);
     $authenticatedUser = Sanctum::actingAs($user, UserTypeEnum::ADMINISTRATOR->abilities());
 
-    $response = $this->actingAs($authenticatedUser, 'sanctum')->get(route('api.profile.show'));
+    $response = $this->actingAs($authenticatedUser, 'sanctum')->get(route('tenant.api.profile.show'));
 
     $response
         ->assertStatus(Response::HTTP_OK)
@@ -27,7 +27,7 @@ test('users can update your profile', function () {
     ]);
     $authenticatedUser = Sanctum::actingAs($user, UserTypeEnum::ADMINISTRATOR->abilities());
 
-    $response = $this->actingAs($authenticatedUser, 'sanctum')->put(route('api.profile.update'), [
+    $response = $this->actingAs($authenticatedUser, 'sanctum')->put(route('tenant.api.profile.update'), [
         'name' => 'Test Name',
         'email' => 'test@example.com',
     ]);
@@ -50,7 +50,7 @@ test('users can delete your profile', function () {
     ]);
     $authenticatedUser = Sanctum::actingAs($user, UserTypeEnum::ADMINISTRATOR->abilities());
 
-    $response = $this->actingAs($authenticatedUser, 'sanctum')->delete(route('api.profile.delete'));
+    $response = $this->actingAs($authenticatedUser, 'sanctum')->delete(route('tenant.api.profile.delete'));
 
     expect($user->fresh()->deleted_at)
         ->not->toEqual(null);
