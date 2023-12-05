@@ -11,6 +11,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RefreshTokenController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ResetPassword\ResetPasswordController;
 use App\Http\Controllers\ResetPassword\ResetPasswordTokenValidationController;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
@@ -66,6 +67,18 @@ Route::middleware([
             Route::controller(ProductCategoryController::class)
                 ->prefix('/product-categories')
                 ->as('product-categories.')
+                ->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::post('/', 'store')->name('store');
+                    Route::get('/{id}', 'show')->name('show');
+                    Route::put('/{id}', 'update')->name('update');
+                    Route::delete('/{id}', 'delete')->name('delete');
+                    Route::patch('/{id}/restore', 'restore')->name('restore');
+                });
+
+            Route::controller(ProductController::class)
+                ->prefix('/products')
+                ->as('products.')
                 ->group(function () {
                     Route::get('/', 'index')->name('index');
                     Route::post('/', 'store')->name('store');
